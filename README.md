@@ -5,4 +5,6 @@ It is a program that simulates a real banking queue system in the form of a sing
 ## **Program Design:**
 - **Main**: Handles User input for the number of tellers and cunstmers along with the type of each one (VIP: priority 1 and Regular: priority 2)
 - **Customer**: class to store the customer number (turn) and priority.
+- **SharedQueue**: Acts like a shared buffer between the producer and consumer(s). It is a prioirty queue that arrange customers in the line (queue) based on their prioirtiy. 
+
 
