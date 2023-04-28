@@ -16,6 +16,10 @@ public class SharedQueue {
     public synchronized boolean continueWork(){
         return q.size() != 0 || allCustomers.size() != 0;
     }
+
+    public synchronized boolean queueIsEmpty() {
+        return q.isEmpty();
+    }
     
     public synchronized void addToQueue() {
         while (continueWork()) {
