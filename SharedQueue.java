@@ -3,6 +3,7 @@ import java.util.*;
 public class SharedQueue {
 
     private final ArrayList<Customer> allCustomers = new ArrayList<>();
+    private final PriorityQueue<Customer> q = new PriorityQueue<Customer>(new ComparatorQueue());
     int maxsize; //the number of tellers
 
     public SharedQueue(int tellers_num, ArrayList<Integer> pris_list) {
