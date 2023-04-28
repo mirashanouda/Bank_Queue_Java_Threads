@@ -12,9 +12,13 @@ public class SharedQueue {
             this.allCustomers.add(new Customer(i, pris_list.get(i)));
         }
     }
+
+    public synchronized boolean continueWork(){
+        return q.size() != 0 || allCustomers.size() != 0;
+    }
     
     public synchronized void addToQueue() {
-        while (true) {
+        while (continueWork()) {
             while (q.size() == maxsize) {
                 try {
                     wait();
@@ -34,5 +38,4 @@ public class SharedQueue {
         }
         System.out.println("Finished all customers");
     }
-
 }
