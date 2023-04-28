@@ -13,4 +13,26 @@ public class SharedQueue {
         }
     }
     
+    public synchronized void addToQueue() {
+        while (true) {
+            while (q.size() == maxsize) {
+                try {
+                    wait();
+                    System.out.println("Q is full in add to Queue");
+                } catch (InterruptedException e) {
+                    System.err.println("Error in addToQueue");
+                    throw new RuntimeException(e);
+                }
+            }
+            if (!allCustomers.isEmpty()) {
+                Customer c = allCustomers.get(0);
+                allCustomers.remove(0);
+                this.q.add(c);
+                notify();
+            } else break;
+
+        }
+        System.out.println("Finished all customers");
+    }
+
 }
