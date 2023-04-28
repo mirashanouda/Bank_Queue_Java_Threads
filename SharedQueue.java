@@ -38,4 +38,19 @@ public class SharedQueue {
         }
         System.out.println("Finished all customers");
     }
+
+    public synchronized Customer takeFromQueue() {
+        while (q.isEmpty()) {
+            try {
+                System.out.println("Q is empty - No customers to take");
+                wait();
+            } catch (InterruptedException e) {
+                System.err.println("Error in takeFromQueue");
+                throw new RuntimeException(e);
+            }
+        }
+        Customer c = q.poll();
+        notify();
+        return c;
+    }
 }
