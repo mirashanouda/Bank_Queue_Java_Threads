@@ -28,5 +28,15 @@ public class Main {
                 }
             }
         }
+        SharedQueue q = new SharedQueue(tellers_num, customer_pri);
+        // launch the consumers
+        Thread[] tellers = new Thread[tellers_num+1];
+        for (int i = 1; i <= tellers_num; i++){
+            tellers[i] =  new Teller(i, q);
+            tellers[i].start();
+        }
+        // launch the producer
+        Thread bankQueue = new Thread(new ManageQueue(q));
+        bankQueue.start();
     }
 }
