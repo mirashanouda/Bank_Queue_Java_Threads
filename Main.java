@@ -4,25 +4,38 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 
 public class Main {
     public static void main(String[] args) {
-        int tellers_num, customers_num;
+        Integer tellers_num;
 
         Scanner in = new Scanner(System.in);
         System.out.println("Enter Number of Tellers:");
         tellers_num = in.nextInt();
+        
+        ArrayList<Integer> customer_pri = UserInpout(in);
+        SharedQueue q = new SharedQueue(tellers_num, customer_pri);
+        // launch the consumers
+        Thread[] tellers = new Thread[tellers_num+1];
+        for (int i = 1; i <= tellers_num; i++){
+            tellers[i] =  new Teller(i, q);
+            tellers[i].start();
+        }
+        // launch the producer
+        Thread bankQueue = new Thread(new ManageQueue(q));
+        bankQueue.start();
+    }
 
+    public static ArrayList<Integer> UserInpout(Scanner in) {
         //Console input:
+        Integer customers_num; 
         System.out.println("Enter Number of Customers:");
         customers_num = in.nextInt();
         System.out.print("Enter the type of each customer\n(1) for regular and (2) for VIP\n");
-        
-        
+
         ArrayList<Integer> customer_pri = new ArrayList<>(); //a list of priorities for each customer
+        
         for (int  i = 0; i < customers_num; i++){
             while (true){
                 try {
@@ -39,20 +52,7 @@ public class Main {
                 }
             }
         }
-
-        
-
-
-        SharedQueue q = new SharedQueue(tellers_num, customer_pri);
-        // launch the consumers
-        Thread[] tellers = new Thread[tellers_num+1];
-        for (int i = 1; i <= tellers_num; i++){
-            tellers[i] =  new Teller(i, q);
-            tellers[i].start();
-        }
-        // launch the producer
-        Thread bankQueue = new Thread(new ManageQueue(q));
-        bankQueue.start();
+        return customer_pri;
     }
 
     public static ArrayList<Integer> ReadFile() throws FileNotFoundException {
