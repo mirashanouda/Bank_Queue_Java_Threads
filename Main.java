@@ -14,8 +14,9 @@ public class Main {
         System.out.println("Enter Number of Tellers:");
         tellers_num = in.nextInt();
         
-        ArrayList<Integer> customer_pri = UserInpout(in);
+        ArrayList<Integer> customer_pri = ReadFile();
         SharedQueue q = new SharedQueue(tellers_num, customer_pri);
+        
         // launch the consumers
         Thread[] tellers = new Thread[tellers_num+1];
         for (int i = 1; i <= tellers_num; i++){
@@ -55,33 +56,39 @@ public class Main {
         return customer_pri;
     }
 
-    public static ArrayList<Integer> ReadFile() throws FileNotFoundException {
-        String filename = "TestInput.txt";
+    public static ArrayList<Integer> ReadFile() {
+        String filename = "TestFile.txt";
         System.out.printf("Priorities are read from the file %s\n(1) for regular and (2) for VIP\n", filename);
-
-        FileReader reader = new FileReader(filename);
-        BufferedReader buffReader = new BufferedReader(reader);
         ArrayList<Integer> customer_pri = new ArrayList<>(); //a list of priorities for each customer
-
-        String line;
+        
+        FileReader reader;
         try {
-            while ((line = buffReader.readLine()) != null){
-                try{
-                    Integer priority = Integer.parseInt(line);
-                    if (priority != 1 && priority != 2) {
-                        throw new Exception("Invalid customer type");
+            reader = new FileReader(filename);
+            BufferedReader buffReader = new BufferedReader(reader);
+            String line;
+            try {
+                while ((line = buffReader.readLine()) != null){
+                    try{
+                        Integer priority = Integer.parseInt(line);
+                        if (priority != 1 && priority != 2) {
+                            throw new Exception("Invalid customer type");
+                        }
+                        else {
+                            System.out.println(priority);
+                            customer_pri.add(priority);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Invalid customer type. Please input a value of (1) or (2)");
                     }
-                    else {
-                        customer_pri.add(priority);
-                        break;
-                    }
-                } catch (Exception e) {
-                    System.err.println("Invalid customer type. Please input a value of (1) or (2)");
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            System.err.print("Error! File not found");
             e.printStackTrace();
         }
+        
         return customer_pri;
     }
 }
