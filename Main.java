@@ -19,7 +19,7 @@ public class Main {
         //Choosing the input method:
         while (true){
             try {
-                System.out.println("How to input the customers types (choose a number):\n1. Manually\n2. From TestFile\n");
+                System.out.println("How to input the customers types (choose a number):\n1. Manually\n2. From TestFile");
                 inputMethod = in.nextInt();
                 if (inputMethod != 1 && inputMethod != 2) {
                     throw new Exception("Invalid customer type");
