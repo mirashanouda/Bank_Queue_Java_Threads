@@ -9,12 +9,34 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         Integer tellers_num;
-
+        Integer inputMethod;
+        ArrayList<Integer> customer_pri;
         Scanner in = new Scanner(System.in);
+
         System.out.println("Enter Number of Tellers:");
         tellers_num = in.nextInt();
         
-        ArrayList<Integer> customer_pri = ReadFile();
+        //Choosing the input method:
+        while (true){
+            try {
+                System.out.println("How to input the customers types (choose a number):\n1. Manually\n2. From TestFile\n");
+                inputMethod = in.nextInt();
+                if (inputMethod != 1 && inputMethod != 2) {
+                    throw new Exception("Invalid customer type");
+                }
+                else {
+                    break;
+                }
+            } catch (Exception e) {
+                System.err.println("Invalid customer type. Please input a value of (1) or (2)");
+            }
+        }
+        if (inputMethod == 1){
+            customer_pri = UserInpout(in);
+        }
+        else {
+            customer_pri = ReadFile();
+        }
         SharedQueue q = new SharedQueue(tellers_num, customer_pri);
         
         // launch the consumers
