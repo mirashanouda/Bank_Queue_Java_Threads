@@ -18,6 +18,7 @@ The program is built based on multithreading where each teller is a separate thr
 1. **Number of tellers** [Integer]: The number of tellers (threads) that will be created.
 2. **Input method** [Integer]: The user should choose the method to enter the type of each customer arriving. It should be either a user input from the console (1) or a file input with all priorities (2).
 3. The types of each customer will be its priority. The 1 represents a regular customer (low priority) and the 2 represents a VIP customer (higher priority).
+4. **TestFile.txt**: It is a test file to include the customers priorities seperated by a new line.  
 
 
 ## Output
